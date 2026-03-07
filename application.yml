@@ -1,172 +1,118 @@
 ##
 ##  ██████╗  █████╗ ██████╗ ██╗  ██╗    ██╗      █████╗ ██╗   ██╗ █████╗ ██╗     ██╗███╗   ██╗██╗  ██╗
-##  ██╔══██╗██╔══██╗██╔══██╗██║ ██╔╝    ██║     ██╔══██╗██║   ██║██╔══██╗██║     ██║████╗  ██║██║ ██╔╝
-##  ██║  ██║███████║██████╔╝█████╔╝     ██║     ███████║██║   ██║███████║██║     ██║██╔██╗ ██║█████╔╝
-##  ██║  ██║██╔══██║██╔══██╗██╔═██╗     ██║     ██╔══██║╚██╗ ██╔╝██╔══██║██║     ██║██║╚██╗██║██╔═██╗
-##  ██████╔╝██║  ██║██║  ██║██║  ██╗    ███████╗██║  ██║ ╚████╔╝ ██║  ██║███████╗██║██║ ╚████║██║  ██╗
-##  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝
+##  Dark Lavalink V4 — Built by Dark (SynthX Development)
+##  © 2025 Dark. Credit required for public showcases.
+##  github.com/SynthXDev/dark-lavalink
 ##
-##  Lavalink V4 — Premium Configuration
-##  Built by Dark (SynthX Development)
-##  © 2025 Dark. All rights reserved.
-##
-##  ─────────────────────────────────────────────────────────────────────────────────────────
-##  COPYRIGHT NOTICE:
-##  This configuration file and the associated setup are the intellectual property of Dark
-##  (SynthX Development). You are free to use this for personal and public bots.
-##  If you showcase, review, or reference this setup in a video, stream, or public content,
-##  you MUST credit: "Lavalink setup by Dark — github.com/SynthXDev/dark-lavalink"
-##  Redistribution without credit is not permitted.
-##  ─────────────────────────────────────────────────────────────────────────────────────────
 
 server:
-  # Railway injects $PORT automatically — falls back to 2333 for local testing
   port: ${PORT:2333}
   address: 0.0.0.0
-  http2:
-    enabled: false
-
-plugins:
-  # ──────────────────────────────────────────────────────────────────────────
-  #  LavaSrc — Spotify · Apple Music · Deezer · Yandex Music · Tidal support
-  # ──────────────────────────────────────────────────────────────────────────
-  lavasrc:
-    providers:
-      - 'dzisrc:%ISRC%'       # Deezer by ISRC (most accurate)
-      - 'dzsearch:%QUERY%'    # Deezer search
-      - 'ytmsearch:%QUERY%'   # YouTube Music fallback
-      - 'ytsearch:%QUERY%'    # YouTube fallback
-    sources:
-      spotify: true
-      appleMusic: false
-      deezer: true
-      yandexMusic: true
-      flowerytts: false
-      youtube: true
-      vkMusic: false
-
-    spotify:
-      # ┌──────────────────────────────────────────────────────────────┐
-      # │  Get from: https://developer.spotify.com/dashboard           │
-      # │  Set in Railway env: SPOTIFY_CLIENT_ID / SPOTIFY_CLIENT_SECRET│
-      # └──────────────────────────────────────────────────────────────┘
-      clientId: ${SPOTIFY_CLIENT_ID:""}
-      clientSecret: ${SPOTIFY_CLIENT_SECRET:""}
-      # Country code for track lookups — change to your region
-      countryCode: "US"
-      # How Spotify tracks are resolved (deezer = best quality/accuracy)
-      playlistLoadLimit: 6
-      albumLoadLimit: 6
-
-    # appleMusic is disabled — enable only if you have a valid Apple MusicKit token
-    # appleMusic:
-    #   mediaAPIToken: "your-token-here"
-    #   countryCode: "US"
-
-    deezer:
-      # Optional: Deezer Master key — contact Deezer for commercial use
-      masterDecryptionKey: ${DEEZER_MASTER_KEY:""}
-
-    yandexMusic:
-      accessToken: ${YANDEX_TOKEN:""}
-
-  # ──────────────────────────────────────────────────────────────────────────
-  #  LavaSearch — enhanced search: smart query parsing, multi-source results
-  # ──────────────────────────────────────────────────────────────────────────
-  lavasearch:
-    sources:
-      youtube: true
-      youtubeMusic: true
-      soundcloud: true
-      spotify: true
-      appleMusic: false
-      deezer: true
-      yandexMusic: true
-
-  # ──────────────────────────────────────────────────────────────────────────
-  #  SponsorBlock — automatically skip YouTube sponsor/ad segments
-  # ──────────────────────────────────────────────────────────────────────────
-  sponsorblock:
-    # Which YouTube segment types to skip automatically
-    # Options: sponsor, selfpromo, interaction, intro, outro,
-    #          preview, music_offtopic, filler
-    categories:
-      - sponsor
-      - selfpromo
-      - interaction
 
 lavalink:
   plugins:
-    # ┌──────────────────────────────────────────────────────────────────────────┐
-    # │  PLUGIN VERSIONS — update these to latest when they release new versions │
-    # │  Check releases at: https://github.com/topi314/LavaSrc/releases          │
-    # │                     https://github.com/topi314/LavaSearch/releases       │
-    # │                     https://github.com/topi314/Sponsorblock-Plugin       │
-    # └──────────────────────────────────────────────────────────────────────────┘
+    # YouTube Source Plugin — REQUIRED for LavaSearch YouTube support
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.11.4"
+      snapshot: false
+    # LavaSrc — Spotify, Deezer, Yandex Music
     - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.3.0"
       snapshot: false
+    # LavaSearch — enhanced search
     - dependency: "com.github.topi314.lavasearch:lavasearch-plugin:1.0.0"
       snapshot: false
+    # SponsorBlock — skip YouTube sponsors
     - dependency: "com.github.topi314.sponsorblock:sponsorblock-plugin:3.0.1"
       snapshot: false
 
   server:
     password: ${LAVALINK_PASSWORD:"youshallnotpass"}
 
-    # ──────────────────────────────────────────────────────────────────────────
-    #  AUDIO SOURCES — enable everything
-    # ──────────────────────────────────────────────────────────────────────────
+    sources:
+      # Built-in sources
+      youtube:    false   # disabled — using youtube-plugin instead (more stable)
+      bandcamp:   true
+      soundcloud: true
+      twitch:     true
+      vimeo:      true
+      http:       true
+      local:      false
+
+    filters:
+      volume:      true
+      equalizer:   true
+      karaoke:     true
+      timescale:   true
+      tremolo:     true
+      vibrato:     true
+      rotation:    true
+      distortion:  true
+      channelMix:  true
+      lowPass:     true
+
+    bufferDurationMs:      400
+    frameBufferDurationMs: 5000
+    opusEncodingQuality:   10
+    resamplingQuality:     HIGH
+    trackStuckThresholdMs: 10000
+    useSeekGhosting:       true
+    playerUpdateInterval:  5
+    youtubeSearchEnabled:  false   # handled by youtube-plugin now
+
+plugins:
+  # ── YouTube Source Plugin config ──────────────────────────────────────────
+  youtube:
+    enabled: true
+    allowSearch: true
+    allowDirectVideoIds: true
+    allowDirectPlaylistIds: true
+    clients:
+      - MUSIC
+      - ANDROID_TESTSUITE
+      - WEB
+      - TVHTML5EMBEDDED
+
+  # ── LavaSrc ───────────────────────────────────────────────────────────────
+  lavasrc:
+    providers:
+      - 'dzisrc:%ISRC%'
+      - 'dzsearch:%QUERY%'
+      - 'ytsearch:%QUERY%'
+      - 'ytmsearch:%QUERY%'
+    sources:
+      spotify:      true
+      appleMusic:   false   # needs paid Apple Developer token — disabled
+      deezer:       true
+      yandexMusic:  false   # disabled unless you have a token
+      youtube:      true
+
+    spotify:
+      clientId:     ${SPOTIFY_CLIENT_ID:""}
+      clientSecret: ${SPOTIFY_CLIENT_SECRET:""}
+      countryCode:  "US"
+      playlistLoadLimit: 6
+      albumLoadLimit:    6
+
+    deezer:
+      masterDecryptionKey: ${DEEZER_MASTER_KEY:""}
+
+  # ── LavaSearch ────────────────────────────────────────────────────────────
+  lavasearch:
     sources:
       youtube:      true
-      bandcamp:     true
+      youtubeMusic: true
       soundcloud:   true
-      twitch:       true
-      vimeo:        true
-      nico:         false     # Japanese video site, usually not needed
-      http:         true      # Direct URL playback (mp3, wav, etc)
-      local:        false
+      spotify:      true
+      deezer:       true
 
-    # ──────────────────────────────────────────────────────────────────────────
-    #  AUDIO QUALITY — absolute maximum
-    # ──────────────────────────────────────────────────────────────────────────
-    filters:
-      volume:         true   # +volume command
-      equalizer:      true   # +eq / custom equalizer
-      karaoke:        true   # Karaoke mode (removes vocals)
-      timescale:      true   # Speed / pitch / rate control
-      tremolo:        true   # Tremolo effect
-      vibrato:        true   # Vibrato effect
-      rotation:       true   # 8D audio effect
-      distortion:     true   # Distortion effect
-      channelMix:     true   # Left/right channel mixing
-      lowPass:        true   # Low pass filter
-      highPass:       true   # High pass filter (bass boost etc)
-
-    bufferDurationMs: 400      # Buffer — lower = less latency, higher = more stable
-    frameBufferDurationMs: 5000  # Frame buffer duration — 5s keeps playback smooth
-    opusEncodingQuality: 10    # Opus quality 0-10 (10 = best)
-    resamplingQuality: HIGH    # LOW / MEDIUM / HIGH
-
-    # Prevents Lavalink from being rate-limited on YouTube
-    trackStuckThresholdMs: 10000
-    useSeekGhosting: true      # Prevents audio stutter during seek
-
-    playerUpdateInterval: 5    # How often (seconds) to send player state to bot
-
-    # YouTube-specific — helps avoid IP bans
-    youtubePlaylistLoadLimit: 6
-    youtubeSearchEnabled: true
-
-    # Retry failed tracks automatically
-    httpConfig:
-      proxyHost: ""
-      proxyPort: 0
-      proxyUser: ""
-      proxyPassword: ""
+  # ── SponsorBlock ──────────────────────────────────────────────────────────
+  sponsorblock:
+    categories:
+      - sponsor
+      - selfpromo
 
 metrics:
   prometheus:
-    enabled: false   # Enable if you want Grafana/Prometheus monitoring
+    enabled: false
     endpoint: /metrics
 
 sentry:
@@ -180,12 +126,7 @@ logging:
     root: INFO
     lavalink: INFO
   request:
-    enabled: true
-    includeClientInfo: true
-    includeHeaders: false
-    includeQueryString: true
-    includePayload: false
-    maxPayloadLength: 10000
+    enabled: false
   logback:
     rollingpolicy:
       max-file-size: 1GB
