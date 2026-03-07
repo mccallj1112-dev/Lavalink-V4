@@ -1,6 +1,5 @@
 # ─────────────────────────────────────────────────────────────────
 #  Dark Lavalink V4 — Dockerfile
-#  Optimized for Railway.app deployment
 #  © 2025 Dark (SynthX Development) — github.com/SynthXDev/dark-lavalink
 # ─────────────────────────────────────────────────────────────────
 
@@ -9,7 +8,10 @@ FROM eclipse-temurin:21-jre-alpine
 LABEL maintainer="Dark <SynthX Development>"
 LABEL description="Lavalink V4 — Premium Node by Dark"
 
+# Hard-coded to 2333 — set PORT=2333 in Railway Variables
 ENV LAVALINK_VERSION=4.0.8
+ENV SERVER_PORT=2333
+ENV PORT=2333
 ENV JAVA_OPTS="-Xmx512m -Xms128m -XX:+UseG1GC -Dfile.encoding=UTF-8"
 
 RUN addgroup -S lavalink && adduser -S lavalink -G lavalink
@@ -26,6 +28,5 @@ USER lavalink
 
 EXPOSE 2333
 
-# KEY FIX: Pass $PORT directly as a JVM system property so Spring Boot
-# binds to whatever port Railway assigns — not just the yml default
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dserver.port=${PORT:-2333} -jar Lavalink.jar"]
+# Pass port three ways so Spring Boot definitely picks it up
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dserver.port=2333 -jar Lavalink.jar"]
