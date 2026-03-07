@@ -35,11 +35,6 @@ RUN mkdir -p /app/logs && chown -R lavalink:lavalink /app
 # ── Switch to non-root ────────────────────────────────────────────
 USER lavalink
 
-# ── Health check — Railway uses this to know if the service is up ─
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-  CMD wget -qO- http://localhost:${PORT:-2333}/version || exit 1
-
-# ── Expose port (Railway overrides this with $PORT env var) ──────
 EXPOSE 2333
 
 # ── Start Lavalink ───────────────────────────────────────────────

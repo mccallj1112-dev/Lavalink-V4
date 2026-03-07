@@ -1,6 +1,5 @@
 # ─────────────────────────────────────────────────────────────
 #  railway.toml — Dark Lavalink V4
-#  Railway.app deployment configuration
 #  © 2025 Dark (SynthX Development)
 # ─────────────────────────────────────────────────────────────
 
@@ -9,13 +8,9 @@ builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
 [deploy]
-# Restart automatically if Lavalink crashes
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
-
-# Health check — Railway pings this to confirm the service is alive
-healthcheckPath = "/version"
-healthcheckTimeout = 300
-
-# Railway will send SIGTERM before killing — gives Lavalink time to shut down cleanly
+# NO healthcheckPath — Railway checks port availability instead.
+# Lavalink needs 60-90s to download plugins on first boot.
+# A path-based health check times out before Lavalink is ready.
 numReplicas = 1
