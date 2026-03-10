@@ -45,8 +45,10 @@ logging:
     lavalink: INFO
 
 plugins:
-  - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.2.0"
+  - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.8.1"
     repository: "https://maven.lavalink.dev/releases"
+  - dependency: "dev.lavalink.youtube:youtube-plugin:1.18.0"  # Check latest version at https://github.com/lavalink-devs/youtube-source/releases
+      snapshot: false
 
 lavasrc:
   providers:
